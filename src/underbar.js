@@ -109,6 +109,14 @@ var _ = {};
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var unique = [];
+    var sortedArr = array.sort();
+    for (var i = 0; i < array.length; i++){
+      if (i === 0){
+        unique.push(sortedArr[i]);
+      } else if (!(sortedArr[i] === sortedArr[i-1])){
+        unique.push(sortedArr[i]);
+      }
+    }
     return unique;
   };
 
@@ -172,19 +180,22 @@ var _ = {};
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
-    // TIP: Many iteration problems can be most easily expressed in
-    // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
       }
       return item === target;
     }, false);
+    // TIP: Many iteration problems can be most easily expressed in
+    // terms of reduce(). Here's a freebie to demonstrate!
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    _.reduce(collection, function(current,item){
+        !iterator(item);
+    }, false);
     // TIP: Try re-using reduce() here.
   };
 
