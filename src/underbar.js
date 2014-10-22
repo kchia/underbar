@@ -97,6 +97,13 @@ var _ = {};
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var rejected = [];
+    _.filter(collection, function(element){
+      if (!test(element)){
+        rejected.push(element);
+      }
+    });
+    return rejected;
   };
 
   // Produce a duplicate-free version of the array.
