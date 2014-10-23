@@ -221,6 +221,7 @@ var _ = {};
         if (_.contains(falsyResults,item)){
           return false;
         }
+        return true;
       } else if (_.contains(falsyResults,iterator(item))) {
           return false;
       } else {
