@@ -193,12 +193,21 @@ var _ = {};
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
-        return true;
+    if (collection.length != undefined){
+      return _.reduce(collection, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return item === target;
+      }, false);
+    } else {
+      for(var k in collection){
+        if (collection[k] === target){
+          return true;
+        } 
       }
-      return item === target;
-    }, false);
+      return false;
+    }
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
   };
