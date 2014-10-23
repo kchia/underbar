@@ -154,6 +154,7 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    return functionOrKey(collection);
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -193,15 +194,25 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    _.reduce(collection, function(current,item){
-        !iterator(item);
-    }, false);
+    var falsyResults = [0, undefined, null, false];
+    return _.reduce(collection, function(current, item){
+      if (iterator === undefined) {
+        if (_.contains(falsyResults,item)){
+          return false;
+        }
+      } else if (_.contains(falsyResults,iterator(item))) {
+          return false;
+      } else {
+          return current;
+      }
+    }, true);
     // TIP: Try re-using reduce() here.
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    return !_.every(collection,iterator);
     // TIP: There's a very clever way to re-use every() here.
   };
 
