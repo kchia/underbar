@@ -245,12 +245,19 @@ var _ = {};
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
-    accumulator === undefined ? accumulator = collection[0] : accumulator; 
-    var current = accumulator;
-    for (var i = 0; i < collection.length; i++){
-      current = iterator(current,collection[i]);
-    }
-    return current;
+      accumulator === undefined ? accumulator = collection[0] : accumulator;
+      var current = accumulator;
+      _.each(collection, function(item){
+        current = iterator(current,item);
+      });
+      return current;
+    // Alternative:
+    //   accumulator === undefined ? accumulator = collection[0] : accumulator; 
+    //   var current = accumulator;
+    //   for (var i = 0; i < collection.length; i++){
+    //     current = iterator(current,collection[i]);
+    //   }
+    //   return current;
   };
 
   // Determine if the array or object contains a given value (using `===`).
