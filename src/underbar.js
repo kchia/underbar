@@ -190,12 +190,13 @@ var _ = {};
     _.each(collection,function(item){
       mapped.push(iterator(item));
     });
+    return mapped;
     /* Alternative:
      * for(var i = 0; i < collection.length ;i++){
      *  mapped.push(iterator(collection[i]));
      * }
+     * return mapped;
      */
-    return mapped;
   };
 
   /*
@@ -326,13 +327,13 @@ var _ = {};
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    var extended = {};
-    for(var i = 0; i < arguments.length;i++){
-      for(var k in arguments[i]){
-        extended[k] = arguments[i][k];
+    var obj1 = arguments[0];
+    _.each(arguments, function(item){
+      for(var k in item){
+        obj1[k] = item[k];
       }
-    }
-    return extended;
+    });
+      return obj1;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
