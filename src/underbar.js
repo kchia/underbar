@@ -103,6 +103,15 @@ var _ = {};
       }
     });
     return result;
+
+    // Alternative:
+    // var result;
+    // each(collection, function(item,index){
+    //     if (item === target) {
+    //         result = index;
+    //     }
+    // });
+    // return result;
   };
 
   // Return all elements of an array that pass a truth test.
@@ -304,6 +313,7 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    return _.every(collection,iterator);
     // TIP: There's a very clever way to re-use every() here.
   };
 
@@ -387,6 +397,9 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    return function(){
+      _.once(func);
+    } 
   };
 
   // Delays a function for the given number of milliseconds, and then calls
