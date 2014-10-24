@@ -48,7 +48,7 @@ var _ = {};
     return n === 0 ? [] : 
       n > array.length ? array :
         n === undefined ? array[array.length-1] : array.slice(n-1,array.length)
-        
+
     // Alternative:
     // if (n === 0) {
     //   return [];
@@ -146,22 +146,38 @@ var _ = {};
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var unique = [];
-    return _.each(array,function(item){
-
-    });
-
-    /* Alternative:
-     * var unique = [];
-     * var sortedArr = array.sort();
-     * for (var i = 0; i < array.length; i++){
-     *  if (i === 0){
-     *   unique.push(sortedArr[i]);
-     * } else if (!(sortedArr[i] === sortedArr[i-1])){
-     *   unique.push(sortedArr[i]);
-     * }
-    * }
+    _.each(array,function(item){
+      if (unique.indexOf(item) === -1){
+        unique.push(item);
+      }
+    })
     return unique;
-    */
+
+    // Alternative 1:
+    // var unique = [];
+    // var sortedArr = array.sort();
+    // _.each(sortedArr,function(item,i){
+    //   if (i === 0) {
+    //     unique.push(item);
+    //   } else if (!(item === sortedArr[i-1])){
+    //     unique.push(item);
+    //   }
+    // }
+    // );
+    // return unique;
+
+    // Alternative 2:
+    // var unique = [];
+    // var sortedArr = array.sort();
+    //  for (var i = 0; i < array.length; i++){
+    //   if (i === 0){
+    //    unique.push(sortedArr[i]);
+    //  } else if (!(sortedArr[i] === sortedArr[i-1])){
+    //    unique.push(sortedArr[i]);
+    //   }
+    //  }
+    // return unique;
+    
   };
 
 
