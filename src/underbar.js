@@ -339,6 +339,13 @@ var _ = {};
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var obj1 = arguments[0];
+    _.each(arguments, function(item){
+      for(var k in item){
+        k in obj1 ? obj1[k] : obj1[k] = item[k];
+      }
+    });
+      return obj1;
   };
 
 
