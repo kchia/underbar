@@ -90,27 +90,34 @@ var _ = {};
         filtered.push(item);
       }
     });
+      return filtered;
     /* Alternative:
+     * var filtered = [];
      * for(var i=0; i < collection.length; i++){
      *   if (test(collection[i])){
      *   filtered.push(collection[i]);
      * }
      *}
+     * return filtered;
     */
-    return filtered;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    var rejected = [];
-    _.each(collection, function(element){
-      if (!test(element)){
-        rejected.push(element);
-      }
+    return _.filter(collection,function(item){
+      return !test(item);
     });
-    return rejected;
+    /* Alternative: 
+     * var rejected = [];
+     * _.each(collection, function(element){
+     * if (!test(element)){
+     *  rejected.push(element);
+     * }
+     * });
+     * return rejected;
+     */
   };
 
   // Produce a duplicate-free version of the array.
