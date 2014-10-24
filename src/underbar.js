@@ -34,18 +34,29 @@ var _ = {};
   // return just the first element.
   _.first = function(array, n) {
     return n === undefined ? array[0] : array.slice(0, n);
+    // Alternative:
+    // if (n === undefined){
+    //   return array[0];
+    // } else {
+    //   return array.slice(0,n);
+    // }
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
-    if (n === 0) {
-      return [];
-    } else if ( n > array.length) {
-      return array;
-    } else {
-      return n === undefined ? array[array.length-1] : array.slice(n-1,array.length);
-    }
+    return n === 0 ? [] : 
+      n > array.length ? array :
+        n === undefined ? array[array.length-1] : array.slice(n-1,array.length)
+        
+    // Alternative:
+    // if (n === 0) {
+    //   return [];
+    // } else if ( n > array.length) {
+    //   return array;
+    // } else {
+    //   return n === undefined ? array[array.length-1] : array.slice(n-1,array.length);
+    // }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -54,15 +65,28 @@ var _ = {};
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
-    if (Array.isArray(collection)){
-      for(var i = 0; i < collection.length; i++){
-        iterator(collection[i], i, collection);
-      }
-    } else {
-      for(var i in collection){
-        iterator(collection[i], i, collection);
-      }
-    }
+    Array.isArray(collection) ? 
+      function(){
+        for(var i = 0; i < collection.length ;i++){
+          iterator(collection[i], i, collection)
+        }
+      }() :
+      function(){
+        for(var i in collection){
+          iterator(collection[i], i, collection)
+        }
+      }()
+
+    // if (Array.isArray(collection)){
+    //   for(var i = 0; i < collection.length; i++){
+    //     iterator(collection[i], i, collection);
+    //   }
+    // } else {
+    //   for(var i in collection){
+    //     iterator(collection[i], i, collection);
+    //   }
+    // }
+  
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -78,7 +102,6 @@ var _ = {};
         result = index;
       }
     });
-
     return result;
   };
 
@@ -123,15 +146,22 @@ var _ = {};
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var unique = [];
-    var sortedArr = array.sort();
-    for (var i = 0; i < array.length; i++){
-      if (i === 0){
-        unique.push(sortedArr[i]);
-      } else if (!(sortedArr[i] === sortedArr[i-1])){
-        unique.push(sortedArr[i]);
-      }
-    }
+    return _.each(array,function(item){
+
+    });
+
+    /* Alternative:
+     * var unique = [];
+     * var sortedArr = array.sort();
+     * for (var i = 0; i < array.length; i++){
+     *  if (i === 0){
+     *   unique.push(sortedArr[i]);
+     * } else if (!(sortedArr[i] === sortedArr[i-1])){
+     *   unique.push(sortedArr[i]);
+     * }
+    * }
     return unique;
+    */
   };
 
 
@@ -173,16 +203,17 @@ var _ = {};
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args){
-    if (typeof functionOrKey === 'function'){
-      return _.map(collection, function(item){
-        return functionOrKey.apply(item);
-      });
-    } else {
-      return _.map(collection, function(item){
-        return item[functionOrKey]();
-      });
-    }
-  };
+    return typeof functionOrKey === 'function' ? 
+      function(){
+        return _.map(collection, function(item){
+          return functionOrKey.apply(item);
+        });
+      }() : function(){     
+        return _.map(collection, function(item){
+          return item[functionOrKey]();
+        });
+      }()
+    };
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
