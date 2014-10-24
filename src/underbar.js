@@ -85,11 +85,18 @@ var _ = {};
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var filtered = [];
-    for(var i=0; i < collection.length; i++){
-        if (test(collection[i])){
-        filtered.push(collection[i]);
+    _.each(collection,function(item){
+      if (test(item)){
+        filtered.push(item);
       }
-    }
+    });
+    /* Alternative:
+     * for(var i=0; i < collection.length; i++){
+     *   if (test(collection[i])){
+     *   filtered.push(collection[i]);
+     * }
+     *}
+    */
     return filtered;
   };
 
@@ -98,7 +105,7 @@ var _ = {};
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
     var rejected = [];
-    _.filter(collection, function(element){
+    _.each(collection, function(element){
       if (!test(element)){
         rejected.push(element);
       }
@@ -127,9 +134,14 @@ var _ = {};
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var mapped = [];
-    for(var i = 0; i < collection.length ;i++){
-      mapped.push(iterator(collection[i]));
-    }
+    _.each(collection,function(item){
+      mapped.push(iterator(item));
+    });
+    /* Alternative:
+     * for(var i = 0; i < collection.length ;i++){
+     *  mapped.push(iterator(collection[i]));
+     * }
+     */
     return mapped;
   };
 
@@ -153,20 +165,16 @@ var _ = {};
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: you will nead to learn a bit about .apply to complete this.
-  _.invoke = function(collection, functionOrKey, args) {
-    var invoked = [];
-    if (typeof functionOrKey === 'function'){ 
-      for (var i = 0; i < collection.length; i++){
-        invoked.push(functionOrKey.apply(collection[i]));
-      }
+  _.invoke = function(collection, functionOrKey, args){
+    if (typeof functionOrKey === 'function'){
+      return _.map(collection, function(item){
+        return functionOrKey.apply(item);
+      });
     } else {
-      var keyStr = functionOrKey;
-      eval(keyStr)();
-      for (var i = 0; i < collection.length; i++){
-        invoked.push(collection[i].keyStr());
-      }
+      return _.map(collection, function(item){
+        return item[functionOrKey]();
+      });
     }
-    return invoked;
   };
 
   // Reduces an array or object to a single value by repetitively calling
