@@ -224,6 +224,16 @@ var _ = {};
     return _.map(collection, function(item){
       return item[key];
     });
+    // Alternative:
+    // var plucked =[];
+    // _.each(collection, function(item,index){
+    //   for (var i in item){
+    //     if(key === i){
+    //         plucked.push(item[key]);
+    //     }
+    //   }
+    // });
+    // return plucked;
   };
 
   // Calls the method named by functionOrKey on each value in the list.
