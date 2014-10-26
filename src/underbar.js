@@ -297,6 +297,20 @@ var _ = {};
       }
       return false;
     }
+    // Alternative:
+    //     var result = false;
+    //     collection.length === undefined ? 
+    //     function(){
+    //       _.each(collection, function(value,key){
+    //           if (value === target){result = true;}
+    //       })
+    //     }() : 
+    //     function(){
+    //       _.each(collection, function(item){
+    //           if (item === target){result = true;}
+    //       })
+    //     }();
+    //     return result;
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
   };
