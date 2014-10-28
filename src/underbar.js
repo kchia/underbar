@@ -338,15 +338,22 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    var falsyResults = [0, undefined, null, false];
     iterator === undefined ? iterator = _.identity : iterator;
-    var truthyResults = [true,{},'yes'];
-     if (collection.length === 0) {
-        return false;
-      } else { 
-          return _.reduce(collection,function(current,item){
-            return iterator(item) || _.contains(truthyResults,item) ? true : current;
-            }, false) 
-      } 
+    return _.reduce(collection,function(current,item){
+      return !iterator(item) || _.contains(falsyResults,item) ? current : true;
+    },false); 
+
+    // Alternative 1:
+    // iterator === undefined ? iterator = _.identity : iterator;
+    // var truthyResults = [true,{},'yes'];
+    //  if (collection.length === 0) {
+    //     return false;
+    //   } else { 
+    //       return _.reduce(collection,function(current,item){
+    //         return iterator(item) || _.contains(truthyResults,item) ? true : current;
+    //         }, false) 
+    //   } 
     // TIP: There's a very clever way to re-use every() here.
   };
 
