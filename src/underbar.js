@@ -311,6 +311,7 @@ var _ = {};
     //       })
     //     }();
     //     return result;
+
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
   };
@@ -337,7 +338,15 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    return _.every(collection,iterator);
+    iterator === undefined ? iterator = _.identity : iterator;
+    var truthyResults = [true,{},'yes'];
+     if (collection.length === 0) {
+        return false;
+      } else { 
+          return _.reduce(collection,function(current,item){
+            return iterator(item) || _.contains(truthyResults,item) ? true : current;
+            }, false) 
+      } 
     // TIP: There's a very clever way to re-use every() here.
   };
 
@@ -455,6 +464,12 @@ var _ = {};
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var shuffled = [];
+    _.each(array,function(item,index){
+      var randomIndex = Math.floor(Math.random() * array.length);
+      shuffled.push(array[randomIndex]);
+    })
+    return shuffled;
   };
 
 
