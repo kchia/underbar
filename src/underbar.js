@@ -347,9 +347,7 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    return collection.length === 0 ? false : _.contains(collection,'yes') ? 
-      true : !_.every(collection, function(item){return !iterator(item);});
-
+    return _.contains(collection,'yes') ? true : !_.every(collection, function(item){return !iterator(item);});
     // return collection.length === 0 ? false :  
     //   _.contains(collection,'yes') || _.reduce(collection,function(current,item){ 
     //     return !iterator(item) ? current : true;
@@ -461,7 +459,7 @@ var _ = {};
     var memo = {};
     return function(){
       var value;
-      var key = JSON.stringify(Array.prototype.slice.call(arguments));
+      var key = JSON.stringify(arguments);
       if(key in memo){
         value = memo[key];
       } else {
@@ -504,10 +502,13 @@ var _ = {};
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var shuffled = [];
-    _.each(array,function(item,index){
-      var randomIndex = Math.floor(Math.random() * array.length);
-      shuffled.push(array[randomIndex]);
-    })
+    var arrCopy = array.slice(0);
+    var randIndex;
+    for(var i = 0; i < array.length; i++){
+      var randIndex = Math.floor(Math.random() * arrCopy.length);
+      shuffled[i] = arrCopy[randIndex];
+      arrCopy.splice(randIndex, 1);
+    };
     return shuffled;
   };
 
