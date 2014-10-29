@@ -319,19 +319,28 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    var falsyResults = [0, undefined, null, false];
-    return _.reduce(collection, function(current, item){
-      if (iterator === undefined) {
-        if (_.contains(falsyResults,item)){
-          return false;
-        }
+    return _.reduce(collection,function(accumulator,item){
+       iterator = iterator || _.identity;
+       if (iterator(item) && accumulator){
         return true;
-      } else if (_.contains(falsyResults,iterator(item))) {
-          return false;
-      } else {
-          return current;
-      }
-    }, true);
+       }
+       return false;
+    },true);
+
+  // Alternative:
+  //   var falsyResults = [0, undefined, null, false];
+  //   return _.reduce(collection, function(current, item){
+  //     if (iterator === undefined) {
+  //       if (_.contains(falsyResults,item)){
+  //         return false;
+  //       }
+  //       return true;
+  //     } else if (_.contains(falsyResults,iterator(item))) {
+  //         return false;
+  //     } else {
+  //         return current;
+  //     }
+  //   }, true);
     // TIP: Try re-using reduce() here.
   };
 
