@@ -446,7 +446,18 @@ var _ = {};
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    return _.once(func);
+    var memo = {};
+    return function(){
+      var value;
+      var key = JSON.stringify(Array.prototype.slice.call(arguments));
+      if(key in memo){
+        value = memo[key];
+      } else {
+        value = func.apply(this,arguments);
+        memo[key] = value;
+      }
+      return value;
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
