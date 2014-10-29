@@ -338,11 +338,20 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    var falsyResults = [0, undefined, null, false];
-    iterator === undefined ? iterator = _.identity : iterator;
-    return _.reduce(collection,function(current,item){
-      return !iterator(item) || _.contains(falsyResults,item) ? current : true;
-    },false); 
+    return collection.length === 0 ? false :  
+      _.contains(collection,'yes') || _.reduce(collection,function(current,item){ 
+        return !iterator(item) ? current : true;
+        },false) ? true : 
+        _.every(collection,iterator) && !_.contains(collection,false) ? true : 
+          !_.every(collection,iterator) && !_.contains(collection,true) ? false : true; 
+          
+
+    // Alternative 2: 
+    // var falsyResults = [0, undefined, null, false];
+    // iterator === undefined ? iterator = _.identity : iterator;
+    // return _.reduce(collection,function(current,item){
+    //   return !iterator(item) || _.contains(falsyResults,item) ? current : true;
+    // },false); 
 
     // Alternative 1:
     // iterator === undefined ? iterator = _.identity : iterator;
