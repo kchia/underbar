@@ -347,12 +347,15 @@ var _ = {};
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    return collection.length === 0 ? false :  
-      _.contains(collection,'yes') || _.reduce(collection,function(current,item){ 
-        return !iterator(item) ? current : true;
-        },false) ? true : 
-        _.every(collection,iterator) && !_.contains(collection,false) ? true : 
-          !_.every(collection,iterator) && !_.contains(collection,true) ? false : true; 
+    return collection.length === 0 ? false : _.contains(collection,'yes') ? 
+      true : !_.every(collection, function(item){return !iterator(item);});
+
+    // return collection.length === 0 ? false :  
+    //   _.contains(collection,'yes') || _.reduce(collection,function(current,item){ 
+    //     return !iterator(item) ? current : true;
+    //     },false) ? true : 
+    //     _.every(collection,iterator) && !_.contains(collection,false) ? true : 
+    //       !_.every(collection,iterator) && !_.contains(collection,true) ? false : true; 
           
 
     // Alternative 2: 
