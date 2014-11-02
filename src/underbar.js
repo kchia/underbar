@@ -266,11 +266,10 @@ var _ = {};
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
       accumulator === undefined ? accumulator = collection[0] : accumulator;
-      var current = accumulator;
       _.each(collection, function(item){
-        current = iterator(current,item);
+        accumulator = iterator(accumulator,item);
       });
-      return current;
+      return accumulator;
     // Alternative:
     //   accumulator === undefined ? accumulator = collection[0] : accumulator; 
     //   var current = accumulator;
@@ -282,21 +281,13 @@ var _ = {};
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
-    if (collection.length != undefined){
       return _.reduce(collection, function(wasFound, item) {
         if (wasFound) {
           return true;
-        }
+        } 
         return item === target;
       }, false);
-    } else {
-      for(var k in collection){
-        if (collection[k] === target){
-          return true;
-        } 
-      }
-      return false;
-    }
+    
     // Alternative:
     //     var result = false;
     //     collection.length === undefined ? 
@@ -319,8 +310,8 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    iterator = iterator || Boolean;
     return _.reduce(collection,function(accumulator,item){
-       iterator = iterator || _.identity;
        if (iterator(item) && accumulator){
         return true;
        }
@@ -539,6 +530,15 @@ var _ = {};
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+      var flattened = [];
+      _.each(nestedArray, function(item){
+        if (Array.isArray(item)) {
+          return _.flatten(item);
+        } else {
+          flattened.push(item);
+        } 
+      });
+      return flattened;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
