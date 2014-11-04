@@ -310,7 +310,7 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    iterator = iterator || Boolean;
+    iterator = iterator || _.identity;
     return _.reduce(collection,function(accumulator,item){
        if (iterator(item) && accumulator){
         return true;
@@ -448,8 +448,8 @@ var _ = {};
   // instead if possible.
   _.memoize = function(func) {
     var memo = {};
+    var value;
     return function(){
-      var value;
       var key = JSON.stringify(arguments);
       if(key in memo){
         value = memo[key];
@@ -475,7 +475,7 @@ var _ = {};
       }
     });
     setTimeout(function(){
-      func.apply(this,argsArr);
+      return func.apply(this,argsArr);
       },
       wait);
   };
@@ -530,15 +530,11 @@ var _ = {};
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
-      var flattened = [];
+      result = result || [];
       _.each(nestedArray, function(item){
-        if (Array.isArray(item)) {
-          return _.flatten(item);
-        } else {
-          flattened.push(item);
-        } 
-      });
-      return flattened;
+          Array.isArray(item) ? _.flatten(item, result) : result.push(item);
+          });
+      return result;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
