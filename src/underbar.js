@@ -515,6 +515,16 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    var groups = [];
+    _.each(collection,function(value,i){
+      var groupName = iterator(i);
+      if (i in groups){
+        groups[ky] = value;
+      } else {
+        groups[key] = [value];
+      }
+    })
+    return groups;
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -545,6 +555,17 @@ var _ = {};
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var firstArr = arguments[0];
+    _.each(arguments, function(arr,index){
+      if (index > 0){
+        _.each(arr, function(item){
+          if (_.contains(firstArr, item)){
+            firstArr.splice(firstArr.indexOf(item),1);
+          }
+        });
+      }
+    });
+    return firstArr;
   };
 
 
