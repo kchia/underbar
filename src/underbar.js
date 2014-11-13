@@ -312,11 +312,11 @@ var _ = {};
   _.every = function(collection, iterator) {
     iterator = iterator || _.identity;
     return _.reduce(collection,function(accumulator,item){
-       if (iterator(item) && accumulator){
-        return true;
-       }
-       return false;
-    },true);
+      if (iterator(item) && accumulator){
+       return true;
+      }
+      return false;
+   },true);
 
   // Alternative:
   //   var falsyResults = [0, undefined, null, false];
@@ -515,16 +515,13 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-    var groups = [];
-    _.each(collection,function(value,i){
-      var groupName = iterator(i);
-      if (i in groups){
-        groups[ky] = value;
-      } else {
-        groups[key] = [value];
-      }
-    })
-    return groups;
+    return typeof iterator === 'string' ?
+      function(){
+        item[iterator];
+      }():
+      function(){
+        collection.key
+      }();
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -533,6 +530,7 @@ var _ = {};
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -550,7 +548,19 @@ var _ = {};
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
-  };
+    var result = [];
+    var firstArr = arguments[0];
+    for(var i = 0; i < firstArr.length; i++){
+      var item = firstArr[i];
+      for(var j = 1; j < arguments.length; j++){
+        if(!_.contains(arguments[j],item)){
+          return result; 
+        }
+        result.push(item);
+      }
+    }
+    return result;
+  };  
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
