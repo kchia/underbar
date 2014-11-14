@@ -515,13 +515,7 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-    return typeof iterator === 'string' ?
-      function(){
-        item[iterator];
-      }():
-      function(){
-        collection.key
-      }();
+
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -530,7 +524,18 @@ var _ = {};
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
-
+    //The length of the result array equals the length of the longest array passed in
+    var longestArr = [];
+    for(var i = 0; i < arguments.length; i++){
+      if(arguments[i].length > longestArr.length){
+        longestArr = arguments[i];
+      }
+    }
+    var result = Array(longestArr.length);
+    for(var i = 0; i < result.length; i++){
+      result[i] = _.pluck(arguments,i)
+    }
+    return result;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
