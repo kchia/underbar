@@ -394,7 +394,9 @@ var _ = {};
       }
     });
       return obj1;
-  };
+    };
+    
+  
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
@@ -467,7 +469,7 @@ var _ = {};
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait, args) {
+  _.delay = function(func, wait) {
     var argsArr = [];
     _.each(arguments,function(item,index){
       if (index > 1) {
@@ -478,6 +480,7 @@ var _ = {};
       return func.apply(this,argsArr);
       },
       wait);
+    
   };
 
 
@@ -515,10 +518,39 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-
+    if (typeof iterator === 'function'){
+      return _.pluck(_.map(collection,function(value,index,list){
+        return {
+          value: value,
+          index: index,
+          criterion: iterator(value,index,list)
+          };
+      }).sort(function(left,right){
+          var a = left.criterion;
+          var b = right.criterion;
+          if (a !== b){
+            if (a > b || a === void 0) {return 1};
+            if (a < b || b === void 0) {return -1};
+          } 
+      }),'value');  
+    } else {
+      return _.pluck(_.map(collection,function(value,index,list){
+        return {
+          value: value,
+          index: index
+        };
+      }).sort(function(left,right){
+          var a = left.value[iterator];
+          var b = right.value[iterator]
+          if (a !== b){
+            if (a > b || a === void 0) {return 1};
+            if (a < b || b === void 0) {return -1};
+          }
+      }),'value');  
+    }
   };
 
-  // Zip together two or more arrays with elements of the same index
+  //Zip together two or more arrays with elements of the same index
   // going together.
   //
   // Example:
