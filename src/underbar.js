@@ -586,6 +586,16 @@ var _ = {};
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
     var result = [];
+    for(var i = 0; i < arguments[0].length; i++){
+      var item = arguments[0][i];
+        if (_.every(arguments,function(array){
+            return _.contains(array, item);
+        })){
+            result.push(item);
+        }
+    }
+    return result;
+/*    var result = [];
     var firstArr = arguments[0];
     for(var i = 0; i < firstArr.length; i++){
       var item = firstArr[i];
@@ -596,7 +606,7 @@ var _ = {};
         result.push(item);
       }
     }
-    return result;
+    return result;*/
   };  
 
   // Take the difference between one array and a number of other arrays.
@@ -626,6 +636,20 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    return function(){
+      
+    };
+    if (time_elapsed < wait){
+
+    }
+    var startTime = new Date();
+    
+    var time_elapsed = endTime - startTime;
+    setInterval(function(){
+      var endTime = new Date();
+      var throttled = _.once(func);
+    },wait);
+
   };
 
 }).call(this);
