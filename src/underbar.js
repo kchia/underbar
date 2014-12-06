@@ -636,20 +636,17 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var result, 
+        throttled = false;
     return function(){
-      
+      if(!throttled){
+        result = func.call();
+        throttled = true;
+        setTimeout(function(){
+          throttled = false;
+        },wait);
+      }
+      return result;
     };
-    if (time_elapsed < wait){
-
-    }
-    var startTime = new Date();
-    
-    var time_elapsed = endTime - startTime;
-    setInterval(function(){
-      var endTime = new Date();
-      var throttled = _.once(func);
-    },wait);
-
-  };
-
+  }
 }).call(this);
